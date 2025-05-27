@@ -1,0 +1,18 @@
+spring:
+  application:
+    name: javainsights
+  cache:
+    cache-names: facts
+    caffeine:
+      spec: maximumSize=100,expireAfterWrite=1h
+
+langchain4j:
+  azure-openai:
+    api-key: ${AZURE_OPENAI_API_KEY}
+    endpoint: ${AZURE_OPENAI_API_ENDPOINT}
+    deployment-name: ${AZURE_OPENAI_API_DEPLOYMENT_NAME}
+
+server:
+  port: 8080
+  error:
+    include-message: always
