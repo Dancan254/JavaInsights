@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Java Insights - Fact View</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-okaidia.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=JetBrains+Mono&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #f89406;
+            --primary-dark: #e08000;
+            --secondary-color: #5a67d8;
+            --secondary-dark: #4c51bf;
+            --dark-bg: #1a202c;
+            --light-bg: #f8f9fa;
+            --card-bg: #ffffff;
+            --text-dark: #2d3748;
+            --text-light: #f7fafc;
+            --code-bg: #282c34;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            font-family: 'Poppins', 'Segoe UI', sans-serif;
+            color: var(--text-dark);
+            line-height: 1.7;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .header-container {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+            padding: 2rem 0;
+            border-radius: 0 0 25px 25px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2.5rem;
+        }
+
+        .java-logo {
+            width: 80px;
+            height: auto;
+            filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.2));
+            transition: transform 0.3s ease;
+        }
+
+        .java-logo:hover {
+            transform: rotate(10deg);
+        }
+
+        .header-title {
+            color: var(--text-light);
+            font-weight: 700;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .header-subtitle {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 1.25rem;
+            font-weight: 400;
+        }
+
+        .main-content {
+            flex: 1;
+        }
+
+        .fact-card {
+            background-color: var(--card-bg);
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            margin-top: 1rem;
+            padding: 2.5rem;
+            transition: all 0.4s ease;
+            border-left: 5px solid var(--primary-color);
+        }
+
+        .fact-card:hover {
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12);
+            transform: translateY(-5px);
+        }
+
+        .fact-title {
+            font-size: 1.75rem;
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+            border-bottom: 2px dashed rgba(248, 148, 6, 0.3);
+            padding-bottom: 0.75rem;
+        }
+
+        .fact-content {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            padding: 1.5rem 0;
+            font-size: 1.1rem;
+            color: var(--text-dark);
+        }
+
+        .fact-content strong {
+            color: var(--secondary-color);
+            font-weight: 600;
+        }
+
+        .fact-text {
+            margin-bottom: 1.5rem;
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+
+        pre {
+            background-color: var(--code-bg) !important;
+            border-radius: 12px !important;
+            padding: 1.5rem !important;
+            margin: 2rem 0 !important;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1) !important;
+            border-left: 5px solid var(--secondary-color) !important;
+        }
+
+        code {
+            font-family: 'JetBrains Mono', monospace !important;
+            font-size: 0.95rem !important;
+        }
+
+        .btn-container {
+            background-color: var(--card-bg);
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.06);
+            margin-top: 2rem;
+        }
+
+        .btn-random {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+            color: white;
+            border: none;
+            padding: 0.75rem 2rem;
+            font-weight: 500;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(248, 148, 6, 0.3);
+        }
+
+        .btn-random:hover {
+            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary-color) 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(248, 148, 6, 0.3);
+        }
+
+        .btn-outline-secondary {
+            border: 2px solid var(--secondary-color);
+            color: var(--secondary-color);
+            background: transparent;
+            transition: all 0.3s ease;
+        }
+
+        .btn-outline-secondary:hover {
+            background-color: var(--secondary-color);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--secondary-color) 0%, var(--secondary-dark) 100%);
+            border: none;
+            padding: 0.75rem 1.5rem;
+            font-weight: 500;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(90, 103, 216, 0.2);
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(135deg, var(--secondary-dark) 0%, var(--secondary-color) 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(90, 103, 216, 0.3);
+        }
+
+        .form-control {
+            border-radius: 8px;
+            padding: 0.75rem 1.25rem;
+            border: 1px solid #e2e8f0;
+            font-size: 1rem;
+            box-shadow: none !important;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus {
+            border-color: var(--secondary-color);
+            box-shadow: 0 0 0 3px rgba(90, 103, 216, 0.1) !important;
+        }
+
+        .loading {
+            margin: 1.5rem 0;
+        }
+
+        .spinner-border {
+            color: var(--primary-color);
+        }
+
+        footer {
+            background-color: var(--light-bg);
+            padding: 2rem 0;
+            margin-top: 3rem;
+            border-top: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .social-link {
+            color: var(--primary-color);
+            font-size: 1.2rem;
+            margin: 0 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .social-link:hover {
+            color: var(--primary-dark);
+            transform: translateY(-3px);
+        }
+
+        /* Custom scrollbar for code blocks */
+        ::-webkit-scrollbar {
+            width: 10px;
+            height: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary-color);
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--primary-dark);
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .fact-card {
+                padding: 1.75rem;
+            }
+
+            pre {
+                padding: 1.25rem !important;
+                font-size: 0.9rem;
+            }
+
+            .header-container {
+                border-radius: 0 0 15px 15px;
+                padding: 1.5rem 0;
+            }
+
+            .btn-container {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header-container">
+        <div class="container text-center">
+            <img src="https://www.oracle.com/a/tech/img/cb88-java-logo-001.jpg" alt="Java Logo" class="java-logo">
+            <h1 class="display-4 mb-2 header-title">Java Insights</h1>
+            <p class="header-subtitle">Discover fascinating facts about Java programming!</p>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-9 col-md-11">
+                    <div class="fact-card">
+                        <h2 class="fact-title" th:text="${fact.topic}" id="factTitle">Topic</h2>
+                        <div class="fact-content" id="factContent" th:utext="${
+                            #strings.replace(
+                                #strings.replace(
+                                    #strings.replace(
+                                        #strings.replace(
+                                            fact.fact,
+                                            '**',
+                                            '<strong>'
+                                        ),
+                                        '```java',
+                                        '<pre><code class=&quot;language-java&quot;>'
+                                    ),
+                                    '```',
+                                    '</code></pre>'
+                                ),
+                                '\n\n',
+                                '<br><br>'
+                            )
+                        }">
+                            <p class="fact-text">Fact content goes here...</p>
+                        </div>
+                    </div>
+
+                    <div class="btn-container">
+                        <div class="row justify-content-center">
+                            <div class="col-md-10">
+                                <form th:action="@{/topic}" method="post" class="mb-4">
+                                    <div class="input-group">
+                                        <input type="text" name="topic" class="form-control"
+                                               placeholder="Enter a Java topic (e.g., streams, lambdas, collections)..."
+                                               th:value="${searchedTopic}" required>
+                                        <button type="submit" class="btn btn-primary px-4">
+                                            <i class="fas fa-search me-2"></i>Get Topic Fact
+                                        </button>
+                                    </div>
+                                </form>
+
+                                <div class="d-flex gap-3 justify-content-center">
+                                    <button id="newRandomFactBtn" class="btn btn-random btn-lg">
+                                        <i class="fas fa-random me-2"></i>New Random Fact
+                                    </button>
+
+                                    <a href="/" class="btn btn-outline-secondary btn-lg">
+                                        <i class="fas fa-home me-2"></i>Home
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="loading text-center" id="loadingIndicator" style="display: none;">
+                        <div class="spinner-border" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer style="background-color: var(--light-bg); padding: 2rem 0; text-align: center; border-top: 1px solid rgba(0, 0, 0, 0.05);">
+        <div class="container">
+            <a href="https://www.linkedin.com/in/ian-dancan/" class="social-link mx-3" target="_blank" title="LinkedIn">
+                <i class="fab fa-linkedin fa-lg"></i>
+            </a>
+            <a href="https://x.com/your_javaguy" class="social-link mx-3" target="_blank" title="X">
+                <i class="fab fa-twitter fa-lg"></i>
+            </a>
+            <p style="margin-top: 1rem; font-size: 0.9rem; color: #6c757d;">© 2025 Java Insights</p>
+        </div>
+    </footer>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-java.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const forms = document.querySelectorAll('form');
+            const loadingIndicator = document.getElementById('loadingIndicator');
+
+            forms.forEach(form => {
+                form.addEventListener('submit', () => {
+                    loadingIndicator.style.display = 'block';
+                });
+            });
+
+            // Initialize syntax highlighting
+            Prism.highlightAll();
+
+            // New Random Fact button with AJAX
+            const newRandomFactBtn = document.getElementById('newRandomFactBtn');
+            const factTitle = document.getElementById('factTitle');
+            const factContent = document.getElementById('factContent');
+
+            newRandomFactBtn.addEventListener('click', async () => {
+                try {
+                    loadingIndicator.style.display = 'block';
+
+                    const response = await fetch('/api/random-fact');
+                    const data = await response.json();
+
+                    // Update the title
+                    factTitle.textContent = data.topic;
+
+                    // Format and update the content
+                    let formattedContent = data.fact
+                        .replace(/\*\*/g, '<strong>')
+                        .replace(/```java/g, '<pre><code class="language-java">')
+                        .replace(/```/g, '</code></pre>')
+                        .replace(/\n\n/g, '<br><br>');
+
+                    factContent.innerHTML = formattedContent;
+
+                    // Re-initialize syntax highlighting
+                    Prism.highlightAll();
+
+                    // Scroll to the top of the fact card
+                    document.querySelector('.fact-card').scrollIntoView({ behavior: 'smooth' });
+                } catch (error) {
+                    console.error('Error fetching random fact:', error);
+                } finally {
+                    loadingIndicator.style.display = 'none';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
