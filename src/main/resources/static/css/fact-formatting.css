@@ -1,0 +1,67 @@
+/* Custom styles for better fact formatting */
+.fact-content {
+    background-color: white;
+    border-radius: 12px;
+    padding: 2rem !important;
+    font-size: 1.1rem;
+    color: #2d3748;
+    line-height: 1.8;
+}
+
+/* Improve heading styles */
+.fact-content strong:first-of-type {
+    font-size: 1.5rem;
+    color: #f89406;
+    display: block;
+    margin: 0 0 1.5rem 0;
+    border-bottom: 1px dashed rgba(248, 148, 6, 0.3);
+    padding-bottom: 0.75rem;
+    font-weight: 700;
+}
+
+.fact-content strong {
+    color: #5a67d8;
+    font-weight: 600;
+    display: inline-block;
+    margin: 1.5rem 0 0.75rem 0;
+    font-size: 1.25rem;
+}
+
+/* Improve paragraph spacing */
+.fact-content p {
+    margin-bottom: 1.25rem;
+}
+
+/* Code block enhancements */
+.fact-content pre {
+    background-color: #282c34 !important;
+    border-radius: 12px !important;
+    padding: 1.5rem !important;
+    margin: 1.5rem 0 !important;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1) !important;
+    border-left: 5px solid #5a67d8 !important;
+    overflow-x: auto;
+}
+
+.fact-content code {
+    font-family: 'JetBrains Mono', 'Fira Code', monospace !important;
+    font-size: 0.95rem !important;
+}
+
+/* Better list formatting */
+.fact-content ul, .fact-content ol {
+    margin: 1rem 0 1.5rem 1.5rem;
+}
+
+.fact-content li {
+    margin-bottom: 0.5rem;
+}
+
+/* Final section with practical insights */
+.fact-content p:last-of-type {
+    background-color: rgba(90, 103, 216, 0.1);
+    padding: 1rem;
+    border-radius: 8px;
+    border-left: 4px solid #5a67d8;
+    margin-top: 2rem;
+}

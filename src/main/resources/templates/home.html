@@ -5,150 +5,239 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Java Insights - Random Facts About Java</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-okaidia.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=JetBrains+Mono&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
+        :root {
+            --primary-color: #f89406;
+            --primary-dark: #e08000;
+            --secondary-color: #5a67d8;
+            --secondary-dark: #4c51bf;
+            --dark-bg: #1a202c;
+            --light-bg: #f8f9fa;
+            --card-bg: #ffffff;
+            --text-dark: #2d3748;
+            --text-light: #f7fafc;
+            --code-bg: #282c34;
+        }
+
         body {
-            background-color: #f8f9fa;
-            font-family: 'Inter', 'Segoe UI', -apple-system, sans-serif;
-            color: #2c3e50;
-            line-height: 1.6;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            font-family: 'Poppins', 'Segoe UI', sans-serif;
+            color: var(--text-dark);
+            line-height: 1.7;
         }
-        .fact-card {
-            background-color: white;
-            border-radius: 12px;
-            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
-            margin-top: 2rem;
-            padding: 2rem;
-            transition: all 0.3s ease;
+
+        .header-container {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+            padding: 2rem 0;
+            border-radius: 0 0 25px 25px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2.5rem;
         }
-        .fact-card:hover {
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
-        }
+
         .java-logo {
             width: 80px;
             height: auto;
-            margin: 1rem 0;
+            filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.2));
+            transition: transform 0.3s ease;
         }
-        .btn-random {
-            background-color: #007acc;
-            color: white;
-            border: none;
-            padding: 0.75rem 2rem;
-            font-weight: 500;
-            border-radius: 8px;
-            transition: all 0.2s ease;
+
+        .java-logo:hover {
+            transform: rotate(10deg);
         }
-        .btn-random:hover {
-            background-color: #005c99;
-            color: white;
-            transform: translateY(-1px);
+
+        .header-title {
+            color: var(--text-light);
+            font-weight: 700;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
         }
-        .fact-content {
-            background-color: white;
-            border-radius: 8px;
-            padding: 1rem 0;
-            font-size: 1.1rem;
-            color: #2c3e50;
+
+        .header-subtitle {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 1.25rem;
+            font-weight: 400;
         }
+
+        .fact-card {
+            background-color: var(--card-bg);
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            margin-top: 1rem;
+            padding: 2.5rem;
+            transition: all 0.4s ease;
+            border-left: 5px solid var(--primary-color);
+        }
+
+        .fact-card:hover {
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12);
+            transform: translateY(-5px);
+        }
+
         .fact-title {
             font-size: 1.75rem;
-            color: #007acc;
+            color: var(--primary-color);
             margin-bottom: 1.5rem;
             font-weight: 600;
+            border-bottom: 2px dashed rgba(248, 148, 6, 0.3);
+            padding-bottom: 0.75rem;
         }
+
+        .fact-content {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            padding: 1.5rem 0;
+            font-size: 1.1rem;
+            color: var(--text-dark);
+        }
+
+        .fact-content strong {
+            color: var(--secondary-color);
+            font-weight: 600;
+        }
+
         .fact-text {
             margin-bottom: 1.5rem;
             font-size: 1.1rem;
-            color: #2c3e50;
+            line-height: 1.8;
         }
+
         pre {
-            background-color: #f8f9fa;
-            border: 1px solid #e9ecef;
-            border-radius: 8px;
-            padding: 1.25rem;
-            margin: 1.5rem 0;
-            overflow-x: auto;
+            background-color: var(--code-bg) !important;
+            border-radius: 12px !important;
+            padding: 1.5rem !important;
+            margin: 2rem 0 !important;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1) !important;
+            border-left: 5px solid var(--secondary-color) !important;
         }
+
         code {
-            font-family: 'JetBrains Mono', 'Fira Code', monospace;
-            font-size: 0.95rem;
-            color: #2c3e50;
+            font-family: 'JetBrains Mono', monospace !important;
+            font-size: 0.95rem !important;
         }
-        .loading {
-            display: none;
-            margin: 1rem 0;
+
+        .btn-container {
+            background-color: rgba(255, 255, 255, 0.7);
+            border-radius: 16px;
+            padding: 2rem;
+            margin-top: 2.5rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
         }
-        .input-group {
-            margin-bottom: 1rem;
-        }
-        .form-control {
-            border-radius: 8px;
-            padding: 0.75rem 1rem;
-            border: 1px solid #e9ecef;
-            font-size: 1rem;
-        }
-        .form-control:focus {
-            border-color: #007acc;
-            box-shadow: 0 0 0 3px rgba(0, 122, 204, 0.1);
-        }
+
         .btn-primary {
-            background-color: #007acc;
+            background: linear-gradient(135deg, var(--secondary-color) 0%, var(--secondary-dark) 100%);
             border: none;
             padding: 0.75rem 1.5rem;
-            border-radius: 8px;
+            border-radius: 12px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(90, 103, 216, 0.3);
         }
+
         .btn-primary:hover {
-            background-color: #005c99;
+            background: linear-gradient(135deg, var(--secondary-dark) 0%, var(--secondary-color) 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(90, 103, 216, 0.4);
+        }
+
+        .btn-random {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+            color: white;
+            border: none;
+            padding: 1rem 2.5rem;
+            font-weight: 600;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(248, 148, 6, 0.3);
+            letter-spacing: 0.5px;
+        }
+
+        .btn-random:hover {
+            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary-color) 100%);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(248, 148, 6, 0.4);
+        }
+
+        .form-control {
+            border-radius: 12px;
+            padding: 0.85rem 1.25rem;
+            border: 2px solid #e2e8f0;
+            font-size: 1rem;
+            box-shadow: none !important;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus {
+            border-color: var(--secondary-color);
+            box-shadow: 0 0 0 3px rgba(90, 103, 216, 0.1) !important;
+        }
+
+        .input-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .loading {
+            display: none;
+            margin: 1.5rem 0;
+        }
+
+        .spinner-border {
+            color: var(--primary-color) !important;
+            width: 2.5rem;
+            height: 2.5rem;
         }
         
         /* Custom scrollbar for code blocks */
-        .fact-content::-webkit-scrollbar {
-            width: 8px;
-            height: 8px;
+        ::-webkit-scrollbar {
+            width: 10px;
+            height: 10px;
         }
-        .fact-content::-webkit-scrollbar-track {
-            background: #1e1e1e;
-            border-radius: 4px;
+
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
         }
-        .fact-content::-webkit-scrollbar-thumb {
-            background: #666;
-            border-radius: 4px;
-        }
-        .fact-content::-webkit-scrollbar-thumb:hover {
-            background: #888;
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary-color);
+            border-radius: 10px;
         }
         
-        /* Code highlighting colors */
-        .token.keyword { color: #569CD6; }
-        .token.string { color: #CE9178; }
-        .token.comment { color: #6A9955; }
-        .token.function { color: #DCDCAA; }
-        .token.number { color: #B5CEA8; }
-        .token.operator { color: #D4D4D4; }
-        .token.class-name { color: #4EC9B0; }
-        
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--primary-dark);
+        }
+
         /* Responsive adjustments */
         @media (max-width: 768px) {
             .fact-card {
-                padding: 1.5rem;
+                padding: 1.75rem;
             }
+
             pre {
-                padding: 1rem;
+                padding: 1.25rem !important;
                 font-size: 0.9rem;
+            }
+
+            .header-container {
+                border-radius: 0 0 15px 15px;
+                padding: 1.5rem 0;
             }
         }
     </style>
 </head>
 <body>
-    <div class="container py-5">
-        <div class="text-center mb-5">
+    <div class="header-container">
+        <div class="container text-center">
             <img src="https://www.oracle.com/a/tech/img/cb88-java-logo-001.jpg" alt="Java Logo" class="java-logo">
-            <h1 class="display-4 mb-3" style="color: #2c3e50; font-weight: 600;">Java Insights</h1>
-            <p class="lead text-muted">Discover fascinating facts about Java programming!</p>
+            <h1 class="display-4 mb-2 header-title">Java Insights</h1>
+            <p class="header-subtitle">Discover fascinating facts about Java programming!</p>
         </div>
+    </div>
 
+    <div class="container">
         <div class="row justify-content-center">
-            <div class="col-lg-8 col-md-10">
+            <div class="col-lg-9 col-md-11">
                 <div class="fact-card">
                     <h2 class="fact-title" th:text="${fact.topic}">Topic</h2>
                     <div class="fact-content" th:utext="${
@@ -174,21 +263,21 @@
                     </div>
                 </div>
 
-                <div class="text-center mt-5">
+                <div class="btn-container">
                     <div class="row justify-content-center">
-                        <div class="col-md-8">
+                        <div class="col-md-10">
                             <form th:action="@{/topic}" method="post" class="mb-4">
                                 <div class="input-group">
-                                    <input type="text" name="topic" class="form-control" 
-                                           placeholder="Enter a Java topic (e.g., streams, lambdas, collections)..." 
+                                    <input type="text" name="topic" class="form-control"
+                                           placeholder="Enter a Java topic (e.g., streams, lambdas, collections)..."
                                            th:value="${searchedTopic}" required>
-                                    <button type="submit" class="btn btn-primary">
+                                    <button type="submit" class="btn btn-primary px-4">
                                         <i class="fas fa-search me-2"></i>Get Topic Fact
                                     </button>
                                 </div>
                             </form>
 
-                            <form th:action="@{/}" method="get">
+                            <form th:action="@{/}" method="get" class="text-center">
                                 <button type="submit" class="btn btn-random btn-lg">
                                     <i class="fas fa-random me-2"></i>Get Random Fact
                                 </button>
@@ -198,7 +287,7 @@
                 </div>
 
                 <div class="loading text-center">
-                    <div class="spinner-border text-primary" role="status">
+                    <div class="spinner-border" role="status">
                         <span class="visually-hidden">Loading...</span>
                     </div>
                 </div>
