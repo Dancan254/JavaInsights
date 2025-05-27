@@ -13,8 +13,19 @@ import java.util.Map;
 @Slf4j
 public class LLMService {
     private final ChatLanguageModel model;
-    private final PromptTemplate randomFactTemplate;
     private final PromptTemplate topicFactTemplate;
+    private final String[] javaTopics = {
+        "language features and syntax",
+        "JVM internals and bytecode",
+        "performance optimizations and tuning",
+        "design patterns and best practices",
+        "concurrency and multithreading",
+        "memory management and garbage collection",
+        "collections and data structures",
+        "modern Java features (Java 9+)",
+        "security features",
+        "debugging and troubleshooting"
+    };
 
     public LLMService(
             @Value("${langchain4j.azure-openai.api-key}") String apiKey,
@@ -28,12 +39,6 @@ public class LLMService {
                 .temperature(0.7)
                 .build();
 
-        this.randomFactTemplate = PromptTemplate.from(
-                "You are a Java programming expert. Generate an interesting and accurate fact about Java programming. " +
-                        "The fact should be concise, educational, and focus on a random aspect of Java. " +
-                        "Return only the fact itself, without any additional text."
-        );
-
         this.topicFactTemplate = PromptTemplate.from(
                 "You are a Java programming expert. Generate an interesting and accurate fact about the following Java topic: {{topic}}. " +
                         "The fact should be concise, educational, and specifically about this topic. " +
@@ -42,7 +47,15 @@ public class LLMService {
     }
 
     public String generateRandomFact() {
-        String prompt = randomFactTemplate.apply(Map.of()).text();
+        int randomIndex = (int) (Math.random() * javaTopics.length);
+        String randomTopic = javaTopics[randomIndex];
+        String prompt = String.format(
+            "Generate a fascinating and specific Java programming fact about %s. " +
+            "Focus on practical insights that would be valuable to Java developers. " +
+            "Make it detailed and educational, but keep it concise. " +
+            "Include specific examples or numbers where relevant.",
+            randomTopic
+        );
         return model.chat(prompt);
     }
 
