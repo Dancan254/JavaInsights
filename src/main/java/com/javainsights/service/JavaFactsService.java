@@ -16,7 +16,7 @@ public class JavaFactsService {
         return new JavaFact("Random", fact);
     }
 
-    @Cacheable(value = "facts", key = "#topic")
+    //@Cacheable(value = "facts", key = "#topic")
     public JavaFact getTopicFact(String topic) {
         String fact = llmService.generateTopicFact(topic);
         return new JavaFact(topic, fact);
