@@ -27,6 +27,9 @@
             font-family: 'Poppins', 'Segoe UI', sans-serif;
             color: var(--text-dark);
             line-height: 1.7;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
         }
 
         .header-container {
@@ -58,6 +61,10 @@
             color: rgba(255, 255, 255, 0.9);
             font-size: 1.25rem;
             font-weight: 400;
+        }
+
+        .main-content {
+            flex: 1;
         }
 
         .fact-card {
@@ -118,51 +125,63 @@
         }
 
         .btn-container {
-            background-color: rgba(255, 255, 255, 0.7);
+            background-color: var(--card-bg);
             border-radius: 16px;
             padding: 2rem;
-            margin-top: 2.5rem;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-        }
-
-        .btn-primary {
-            background: linear-gradient(135deg, var(--secondary-color) 0%, var(--secondary-dark) 100%);
-            border: none;
-            padding: 0.75rem 1.5rem;
-            border-radius: 12px;
-            font-weight: 500;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 10px rgba(90, 103, 216, 0.3);
-        }
-
-        .btn-primary:hover {
-            background: linear-gradient(135deg, var(--secondary-dark) 0%, var(--secondary-color) 100%);
-            transform: translateY(-2px);
-            box-shadow: 0 6px 15px rgba(90, 103, 216, 0.4);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.06);
+            margin-top: 2rem;
         }
 
         .btn-random {
             background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
             color: white;
             border: none;
-            padding: 1rem 2.5rem;
-            font-weight: 600;
-            border-radius: 12px;
+            padding: 0.75rem 2rem;
+            font-weight: 500;
+            border-radius: 8px;
             transition: all 0.3s ease;
             box-shadow: 0 4px 10px rgba(248, 148, 6, 0.3);
-            letter-spacing: 0.5px;
         }
 
         .btn-random:hover {
             background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary-color) 100%);
-            transform: translateY(-3px);
-            box-shadow: 0 6px 15px rgba(248, 148, 6, 0.4);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(248, 148, 6, 0.3);
+        }
+
+        .btn-outline-secondary {
+            border: 2px solid var(--secondary-color);
+            color: var(--secondary-color);
+            background: transparent;
+            transition: all 0.3s ease;
+        }
+
+        .btn-outline-secondary:hover {
+            background-color: var(--secondary-color);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--secondary-color) 0%, var(--secondary-dark) 100%);
+            border: none;
+            padding: 0.75rem 1.5rem;
+            font-weight: 500;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(90, 103, 216, 0.2);
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(135deg, var(--secondary-dark) 0%, var(--secondary-color) 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(90, 103, 216, 0.3);
         }
 
         .form-control {
-            border-radius: 12px;
-            padding: 0.85rem 1.25rem;
-            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 0.75rem 1.25rem;
+            border: 1px solid #e2e8f0;
             font-size: 1rem;
             box-shadow: none !important;
             transition: all 0.3s ease;
@@ -173,21 +192,33 @@
             box-shadow: 0 0 0 3px rgba(90, 103, 216, 0.1) !important;
         }
 
-        .input-group {
-            margin-bottom: 1.5rem;
-        }
-
         .loading {
-            display: none;
             margin: 1.5rem 0;
         }
 
         .spinner-border {
-            color: var(--primary-color) !important;
-            width: 2.5rem;
-            height: 2.5rem;
+            color: var(--primary-color);
         }
-        
+
+        footer {
+            background-color: var(--light-bg);
+            padding: 2rem 0;
+            margin-top: 3rem;
+            border-top: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .social-link {
+            color: var(--primary-color);
+            font-size: 1.2rem;
+            margin: 0 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .social-link:hover {
+            color: var(--primary-dark);
+            transform: translateY(-3px);
+        }
+
         /* Custom scrollbar for code blocks */
         ::-webkit-scrollbar {
             width: 10px;
@@ -203,7 +234,7 @@
             background: var(--primary-color);
             border-radius: 10px;
         }
-        
+
         ::-webkit-scrollbar-thumb:hover {
             background: var(--primary-dark);
         }
@@ -223,6 +254,10 @@
                 border-radius: 0 0 15px 15px;
                 padding: 1.5rem 0;
             }
+
+            .btn-container {
+                padding: 1.5rem;
+            }
         }
     </style>
 </head>
@@ -235,65 +270,86 @@
         </div>
     </div>
 
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-lg-9 col-md-11">
-                <div class="fact-card">
-                    <h2 class="fact-title" th:text="${fact.topic}">Topic</h2>
-                    <div class="fact-content" th:utext="${
-                        #strings.replace(
+    <div class="main-content">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-9 col-md-11">
+                    <div class="fact-card">
+                        <h2 class="fact-title" th:text="${fact.topic}" id="factTitle">Topic</h2>
+                        <div class="fact-content" id="factContent" th:utext="${
                             #strings.replace(
                                 #strings.replace(
                                     #strings.replace(
-                                        fact.fact,
-                                        '**',
-                                        '<strong>'
+                                        #strings.replace(
+                                            fact.fact,
+                                            '**',
+                                            '<strong>'
+                                        ),
+                                        '```java',
+                                        '<pre><code class=&quot;language-java&quot;>'
                                     ),
-                                    '```java',
-                                    '<pre><code class=&quot;language-java&quot;>'
+                                    '```',
+                                    '</code></pre>'
                                 ),
-                                '```',
-                                '</code></pre>'
-                            ),
-                            '\n\n',
-                            '<br><br>'
-                        )
-                    }">
-                        <p class="fact-text">Fact content goes here...</p>
-                    </div>
-                </div>
-
-                <div class="btn-container">
-                    <div class="row justify-content-center">
-                        <div class="col-md-10">
-                            <form th:action="@{/topic}" method="post" class="mb-4">
-                                <div class="input-group">
-                                    <input type="text" name="topic" class="form-control"
-                                           placeholder="Enter a Java topic (e.g., streams, lambdas, collections)..."
-                                           th:value="${searchedTopic}" required>
-                                    <button type="submit" class="btn btn-primary px-4">
-                                        <i class="fas fa-search me-2"></i>Get Topic Fact
-                                    </button>
-                                </div>
-                            </form>
-
-                            <form th:action="@{/}" method="get" class="text-center">
-                                <button type="submit" class="btn btn-random btn-lg">
-                                    <i class="fas fa-random me-2"></i>Get Random Fact
-                                </button>
-                            </form>
+                                '\n\n',
+                                '<br><br>'
+                            )
+                        }">
+                            <p class="fact-text">Fact content goes here...</p>
                         </div>
                     </div>
-                </div>
 
-                <div class="loading text-center">
-                    <div class="spinner-border" role="status">
-                        <span class="visually-hidden">Loading...</span>
+                    <div class="btn-container">
+                        <div class="row justify-content-center">
+                            <div class="col-md-10">
+                                <form th:action="@{/topic}" method="post" class="mb-4">
+                                    <div class="input-group">
+                                        <input type="text" name="topic" class="form-control"
+                                               placeholder="Enter a Java topic (e.g., streams, lambdas, collections)..."
+                                               th:value="${searchedTopic}" required>
+                                        <button type="submit" class="btn btn-primary px-4">
+                                            <i class="fas fa-search me-2"></i>Get Topic Fact
+                                        </button>
+                                    </div>
+                                </form>
+
+                                <div class="d-flex gap-3 justify-content-center">
+                                    <button id="newRandomFactBtn" class="btn btn-random btn-lg">
+                                        <i class="fas fa-random me-2"></i>New Random Fact
+                                    </button>
+
+                                    <a href="/" class="btn btn-outline-secondary btn-lg">
+                                        <i class="fas fa-home me-2"></i>Home
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="loading text-center" id="loadingIndicator" style="display: none;">
+                        <div class="spinner-border" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
+    <!-- Footer with social links -->
+    <footer>
+        <div class="container text-center">
+            <div class="mb-4">
+                <a href="https://x.com/your_javaguy" class="social-link" target="_blank" title="Twitter">
+                    <i class="fab fa-twitter fa-lg"></i>
+                </a>
+                <a href="https://www.linkedin.com/in/ian-dancan/" class="social-link" target="_blank" title="LinkedIn">
+                    <i class="fab fa-linkedin fa-lg"></i>
+                </a>
+            </div>
+            <p class="mb-0 text-muted">© 2025 Java Insights. Discover something new about Java every day.</p>
+        </div>
+    </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"></script>
@@ -301,16 +357,52 @@
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const forms = document.querySelectorAll('form');
-            const loading = document.querySelector('.loading');
+            const loadingIndicator = document.getElementById('loadingIndicator');
 
             forms.forEach(form => {
                 form.addEventListener('submit', () => {
-                    loading.style.display = 'block';
+                    loadingIndicator.style.display = 'block';
                 });
             });
 
             // Initialize syntax highlighting
             Prism.highlightAll();
+
+            // New Random Fact button with AJAX
+            const newRandomFactBtn = document.getElementById('newRandomFactBtn');
+            const factTitle = document.getElementById('factTitle');
+            const factContent = document.getElementById('factContent');
+
+            newRandomFactBtn.addEventListener('click', async () => {
+                try {
+                    loadingIndicator.style.display = 'block';
+
+                    const response = await fetch('/api/random-fact');
+                    const data = await response.json();
+
+                    // Update the title
+                    factTitle.textContent = data.topic;
+
+                    // Format and update the content
+                    let formattedContent = data.fact
+                        .replace(/\*\*/g, '<strong>')
+                        .replace(/```java/g, '<pre><code class="language-java">')
+                        .replace(/```/g, '</code></pre>')
+                        .replace(/\n\n/g, '<br><br>');
+
+                    factContent.innerHTML = formattedContent;
+
+                    // Re-initialize syntax highlighting
+                    Prism.highlightAll();
+
+                    // Scroll to the top of the fact card
+                    document.querySelector('.fact-card').scrollIntoView({ behavior: 'smooth' });
+                } catch (error) {
+                    console.error('Error fetching random fact:', error);
+                } finally {
+                    loadingIndicator.style.display = 'none';
+                }
+            });
         });
     </script>
 </body>
