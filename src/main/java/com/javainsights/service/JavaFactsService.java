@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 public class JavaFactsService {
     private final LLMService llmService;
 
-    @Cacheable(value = "facts", key = "'random'")
+    //@Cacheable(value = "facts", key = "'random'")
     public JavaFact getRandomFact() {
         String fact = llmService.generateRandomFact();
         return new JavaFact("Random", fact);
